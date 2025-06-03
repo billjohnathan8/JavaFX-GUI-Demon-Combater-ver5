@@ -1,0 +1,4 @@
+./gradlew clean
+./gradlew :app:run --stacktrace
+
+//run the above as a shell file 

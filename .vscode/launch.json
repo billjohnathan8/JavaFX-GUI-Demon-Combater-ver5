@@ -1,0 +1,19 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Run Main (Gradle + JavaFX)",
+      "request": "launch",
+      "mainClass": "guidemon.Main",
+      "projectName": "app",
+      "cwd": "${workspaceFolder}",
+      "vmArgs": "--module-path \"C:\\Program Files\\Java\\javafx-sdk-24.0.1\\lib\" --add-modules javafx.controls,javafx.fxml",
+      "console": "integratedTerminal"
+    }
+  ]
+}
+

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.control.Label?>
+
+<AnchorPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="guidemon.controller.MainViewController"
+            prefWidth="400.0" prefHeight="300.0">
+    <children>
+        <Label fx:id="statusLabel" layoutX="100" layoutY="140" text="..." />
+    </children>
+</AnchorPane>
