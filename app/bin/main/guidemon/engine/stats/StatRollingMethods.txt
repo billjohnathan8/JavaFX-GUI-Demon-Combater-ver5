@@ -1,0 +1,31 @@
+LEGACY
+
+Stat Rolling Methods / Strategies: 
+
+1. NHE Inflated Roll
+2. NHE Fixed Inflated Roll
+3. NHE Roll for Point Buy
+4. DnD5e Standard Array
+5. DnD5e Standard Point Buy
+6. Custom Point Buy
+7. DnD 5e Standard Roll (4d6 x6, drop lowest each time)
+8. Drop-One Roll (3d6 x7, drop-lowest overall)
+9. Number Cruncher's Roll (4d6 x7. Drop lowest-each time, then drop-lowest overall)
+10. Straight Roll (3d6 x6)
+11. Straight Gacha Roll (1d20 x6)
+12. Drop-One Gacha Roll (1d20 x7, drop-lowest overall)
+13. Munchkin's Method Roll (24d6, drop 6 lowest. arrange into 18 dice - groups of three for each ability score)
+14. NHE Drop-One Roll (4d20, drop-lowest x7 -> drop lowest-overall)
+15. Custom Roll for Point Buy 
+16. PF2E Ability Boost Ability Flaw (ABAF) Point Buy
+17. Balance Card Deck Drawing 
+18. Swing Card Deck Drawing
+19. Full Swing Card Deck Drawing 
+20. Custom Card Deck Drawing 
+21. Ten Roll 
+22. Three-Up Three-Down Roll 
+23. Coin 20 Roll 
+24. Custom Bounded Point Buy 
+25. Varied Rolled Standard Array
+26. NHE Party Roll
+27. Drop-Two Roll 

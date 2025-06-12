@@ -1,0 +1,6 @@
+To add a new strategy:
+1. Create a class in engine/stat/strategies/
+2. Implement rollStats(), return StatAssignmentMode
+3. Register it in the strategy list
+
+Special: for Point Buy
