@@ -1,0 +1,119 @@
+Core Features: 
+1. Prompted StatRoller (O) 
+
+
+
+Legend: 
+(/) = Completed / Working
+(O) = Currently in Development
+(WIP) = Work in Progress / Backlogged 
+
+
+
+TODO: 
+- Prompted StatRoller 
+- StatBlock 
+
+- StatBlock JSON DB Saver 
+- StatBlock Loader
+- StatBlock Editor 
+
+- MajorClass Levels 
+- MajorClass Progression 
+
+- Race Levels 
+- Race Progression 
+
+- Ability StatBlock
+- Ability Progression   
+
+- Effect (Active)
+- Effect (Passive)
+
+- Item StatBlock 
+- Item: Ammunition Integration 
+- Inventory Mangement for Items in StatBlock 
+
+- Database Query (SQL and Search Functions for StatBlocks etc.)
+- Improved Statblock UI Display 
+
+- CombatEncounter
+- Load Combatants from JSON DB (Selector)
+- Initiative and Turn Tracking 
+
+- Tile Grid 
+- Tokens 
+- Token Movement
+- Movement Resource Tracking 
+- Movement Ruler and Dragging 
+- Camera Panning 
+- Placeholder Token Generation
+- Multi-Token Tokens
+- Token Bars 
+- Token Stats Mini-Display Overlay  
+
+- Healthbreakdown Display HUD (StatDisplay)
+- Resources Display HUD 
+- Sheet Display 
+
+- Targeting and Casting Overlay
+- AOE Overlay when casting
+- Actions in Combat  
+- End Combat 
+
+- Combat Duration and Ticking
+- Cast Time 
+- Concentration 
+- Reactions and Interruption
+- Bonus Action   
+- Item Action 
+- Interact Action 
+- Combined Action (e.g. Help, etc.)
+- Synergy Combo Effect 
+- Durational Effects 
+- Summoning and Action Economy 
+- Healthbreakdown Layers, Damage Types, Resistance, Weakness
+- Status Effect Resistance and Weakness
+- Cover Mechanics 
+- Item Durability after End of Combat 
+- Looting 
+- Fog of War and Player-Specific HUD
+- Light Levels and Player-Specific HUD
+- Stealth and Player-Specific HUD
+- Detection and Player-Specific HUD 
+- Detection and StatsDisplay Visibility + Knowledge 
+- Map Layers
+- Structures
+- Terrain Types 
+- Affecting Terrain
+- Lair Actions, Battlefield Actions, Legendary Actions  
+
+- CombatStatistics Tracking (e.g. Highest DPR, Highest Damage in One Attack, Most Damage Received, etc.)
+
+- NPC CombatAI Integration via StatBlock 
+- Auto Combat Battling 
+
+- Group Character Creation (for players, factions, etc.)
+
+- Faction Statblock and Creation 
+- Faction Management 
+
+- Dice Rolling 
+- Global User Chat (with secrets, hidden messages, translated messages, sync with languages, etc.) 
+- User Settings Page
+- Duration Tracking out of combat i.e, per session (downtime -> resources to be spent)
+- Image Displays and Powerpoint Features
+- Audio Sync
+- OST Sync
+- Dynamic and Interactive OST (e.g. triggered, looping based on control flow, etc.)
+- Bird's Eye View Map Displays that are not combat. (i.e, city map and waypoints etc.)
+- Video Displays and Cutscenes
+- VN Chat Displays and Cutscenes 
+- Item Shops 
+- Item Crafting 
+
+- Lore Notes DB
+
+- In-Game Economy 
+- Multiplayer and Online Deployment 
+- JS/TS Support for Web 

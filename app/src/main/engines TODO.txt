@@ -1,0 +1,30 @@
+Creators / Engines for the Following: 
+1. Creating Characters
+    -> 2) StatBlocks
+    -> 3) Abilities
+        -> Passive Effects
+        -> Active Effects + Active Skills
+    -> 5) Ability Scores 
+        -> 6) Skill Checks 
+    -> 7) Proficiencies
+    -> Major Classes
+    -> Subclasses
+    -> Job Classes
+    -> Races
+
+8. Creating Items 
+    -> 9) Item StatBlocks 
+    -> 10) Item Abilities -> transfers abilities from item statblocks into other statblocks etc. (ammo, etc.)
+    -> 11) Crafting Recipes 
+
+ 
+Conditionals -> if, else, only if 
+Status Effects and Status Conditions  
+Action Types 
+Movement Types 
+Damage Types 
+Senses
+Languages 
+Limbs 
+Inventory Slots
+Token Types 

@@ -1,0 +1,10 @@
+unit testing - mockito and JUnit
+javafx testing
+integration testing 
+testing for JSON / DB Persistence 
+stress testing - load and network traffic 
+
+user flow testing 
+
+a/b tests
+user acceptance tests

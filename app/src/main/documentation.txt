@@ -1,0 +1,8 @@
+TODO: 
+-javadocs
+-structure and architecture (monolithic)
+-sequence diagram
+-user flow diagram / chart (with fxml views)
+
+-uml
+-ER diagram

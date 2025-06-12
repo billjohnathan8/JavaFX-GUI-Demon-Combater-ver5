@@ -1,0 +1,8 @@
+TODO: (as of 6/8/2025, 01:19AM) 
+- decouple stage, showAndWait(), and PointBuyStrategies
+- unhook this label in fxml (pointsLabel in PointBuyConfigPromptController.java)
+- spinners currently do not work (PointBuyController.java)
+- use for reset button that allows you to reallocate your stats if you are not happy. (StatAssignmentController.java)
+- refactor PointBuyStrategies 
+
+Current Goal Feature: Prompted StatRoller  
