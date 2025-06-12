@@ -40,9 +40,17 @@ database - local (not a single line of SQL needed)
 TODO: 
 Features: 
 
+
 0. Character Creation - (StatBlock Creation), 
     -Stat Rolling 
     -Custom Form etc.
+
+    -Enter PC Name 
+    -Choose Playable Classes (Fixed)
+    -Choose Playable Races (Presets)
+    -Choose Background (Presets) -> Job Classes Automatically Assigned 
+    -Choose Bond (Dependent on the Campaign)
+    
 
 1. Display Grid: 
     -Start a Combat Encounter with a Grid 
