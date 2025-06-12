@@ -4,10 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-import guidemon.engine.stats.IStatRollingStrategy;
-import guidemon.engine.stats.PointBuyConfig;
-import guidemon.engine.stats.strategies.pointbuy.CustomPointBuyStrategy;
-import guidemon.engine.stats.strategies.pointbuy.DND5EStandardPointBuyStrategy;
+import guidemon.engine.stat_rolling.IStatRollingStrategy;
+import guidemon.engine.stat_rolling.PointBuyConfig;
+import guidemon.engine.stat_rolling.strategies.pointbuy.CustomPointBuyStrategy;
+import guidemon.engine.stat_rolling.strategies.pointbuy.DND5EStandardPointBuyStrategy;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
