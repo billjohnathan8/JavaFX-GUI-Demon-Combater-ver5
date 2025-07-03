@@ -1,0 +1,32 @@
+How to Create a Character in NHe: 
+1. Select 1 Major Class
+2. Select 1 Race (Major)
+
+3. Description of the Character Concept 
+
+4. Remove Class Features as necessary from Character Concept 
+
+5. Optionally grant Chosen Background (should align with Character Concept)
+6. Add abilities from Chosen Background (if it exists), if not - add abilities from a predetermined background 
+
+7. Grant (Usually) Custom Bond (must align with Character Concept)
+8. Create Custom Bond (if necessary - usually yes)
+9. Add abilites from the Custom Bond 
+
+10. Grand (Usually) Sub-Race (should align with Character Concept)
+11. Create new Sub-Race (if applicable)
+12. Add abilities from Sub-Race (if necessary - usually yes)
+
+13. Add additional abilities as and where relevant. 
+14. Leftover abilities are added to a Custom Roster / New Keystone and selected by the player. 
+
+15. Resolve all Levelling 
+16. Determine Overall Level 
+
+17. Roll Stats 
+18. Roll HP
+19. Roll MP
+
+20. Set All Ability Scores 
+21 Set All Primary Resources
+22. Set All Secondary Resources
