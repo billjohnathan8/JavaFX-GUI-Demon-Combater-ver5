@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/MainView.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/guidemon/view/StatRollerView.fxml"));
         Scene scene = new Scene(loader.load());
         stage.setScene(scene);
         stage.setTitle("Stat Roller");
