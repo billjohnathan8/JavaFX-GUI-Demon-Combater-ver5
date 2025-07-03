@@ -1,4 +1,4 @@
-package guidemon.view.aoe;
+package guidemon.view.shapes;
 
 public class StraightLineAOE {
     
