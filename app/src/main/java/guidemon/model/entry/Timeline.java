@@ -1,4 +1,4 @@
-package guidemon.model;
+package guidemon.model.entry;
 
 public enum Timeline {
     GRAND_AND_GOLDEN,
