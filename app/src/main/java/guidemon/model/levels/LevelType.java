@@ -1,4 +1,4 @@
-package guidemon.model.level;
+package guidemon.model.levels;
 
 public enum LevelType {
     MAJOR_CLASS,
