@@ -1,4 +1,4 @@
-package guidemon.engine.stat_rolling;
+package guidemon.engine.stat_roller;
 
 import java.util.Map; 
 

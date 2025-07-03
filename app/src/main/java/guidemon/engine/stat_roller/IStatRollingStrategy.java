@@ -1,4 +1,4 @@
-package guidemon.engine.stat_rolling;
+package guidemon.engine.stat_roller;
 
 public interface IStatRollingStrategy {
     int[] rollStats();  //returns an array of 6 stats if they are to be assigned
