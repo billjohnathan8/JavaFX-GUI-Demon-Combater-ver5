@@ -1,4 +1,4 @@
-package guidemon.engine.effect.type;
+package guidemon.engine.effect.type.granting;
 
 import java.util.List; 
 
@@ -9,6 +9,8 @@ import guidemon.model.combat.DamageType;
 
 /**
  * PassiveEffect
+ * 
+ * resource granting (?)
  */
 public class DamageReductionEffect extends TemplateEffect {
     private DamageType damageType; 
