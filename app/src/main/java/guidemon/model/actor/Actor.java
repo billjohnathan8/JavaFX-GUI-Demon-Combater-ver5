@@ -643,4 +643,10 @@ public class Actor extends Entry implements Damagable {
 
         return isDead; 
     }
+
+    public boolean isAlive() {
+        boolean isAlive = !isDead();
+
+        return isAlive; 
+    }
 }
