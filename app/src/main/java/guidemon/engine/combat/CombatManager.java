@@ -123,13 +123,13 @@ public class CombatManager {
     }
 
     /** Record a counter‐attack event (counts number of counters). */
-    public void recordCounter(Combatant who) {
+    public void counter(Combatant who) {
          // your counter logic…
          // metrics.recordCounter(who);
     }
 
     /** Record a critical hit event (counts number of crits). */
-    public void recordCriticalHit(Combatant who) {
+    public void criticalHit(Combatant who) {
         // your critical hit logic…
         // metrics.recordCritical(who);
     }

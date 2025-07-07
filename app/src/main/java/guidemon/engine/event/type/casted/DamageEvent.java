@@ -1,3 +1,4 @@
+package guidemon.engine.event.type.casted;
 // package guidemon.engine.event.type;
 
 // import java.util.List; 
