@@ -1,11 +1,6 @@
 package guidemon.model.combat;
 
-import java.util.List;
-import java.util.Map;
-
 import guidemon.model.actor.Actor;
-import guidemon.model.stats.immutable.instances.MovementTypeEntry;
-import guidemon.model.stats.immutable.instances.ResourceOrbEntry;
 
 public class Combatant extends Actor {
     private int initiative; 
@@ -123,21 +118,20 @@ public class Combatant extends Actor {
     // private List<Resource> otherResources;             //for other resources
     // private List<PassiveScore> otherPassiveScores;     //for other passive scores 
 
-    //TODO: 
-    private boolean isAlive; 
-
     public Combatant(String name) {
         super(name);
-        this.isAlive = true; 
     }   
 
     //TODO: REST OF OTHER METHODS
-    public boolean isAlive() {
-        return this.isAlive; 
-    }
 
+    //aka getCurSPD()
     public int getTotalSpeedRemaining() {
         return getCurrentMovementType().getMaximumSpeed() - this.totalSpeedSpent;
+    }
+
+    //aka getMaxSPD()
+    public int getTotalSpeed() {
+        return getCurrentMovementType().getMaximumSpeed(); 
     }
     
     public int getTotalSpeedSpent() {
