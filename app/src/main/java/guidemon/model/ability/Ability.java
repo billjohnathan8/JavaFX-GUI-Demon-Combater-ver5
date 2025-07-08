@@ -11,6 +11,7 @@ import guidemon.model.actor.Actor;
 import guidemon.model.casting.CastingParameters;
 import guidemon.model.entry.Entry;
 import guidemon.model.stats.ResourceCost; 
+import guidemon.model.combat.TickUnit; 
 
 /**
  * An Ability is an Entry that provides its owner a list of Effects or certain other entries. In the fashion of Providing A while it is active, and removing A when it is deactivated or removed completely. 
@@ -31,6 +32,7 @@ public class Ability extends Entry {
     private AbilityType type;
     private List<String> abilityTags; 
     
+    //TODO: move to a method that checks all requisites etc.
     private boolean isOn; //is this ability currently going to take effect? or grant any other abilities (in the case of LinchpinAbilities)
     private List<EligibilityCondition> requisites; //ensures that this ability remains 'on' (note: this is different from casting conditions) 
     private List<Trigger> triggers;     //for conditional Passive Abilities that may trigger passive or active effects. 
@@ -44,6 +46,10 @@ public class Ability extends Entry {
     private List<Effect> effects;                       //what does this ability do? what will it do to its targets (self for passive, etc. OR the targets of the cast)
 
     private String description; 
+
+    //TODO: Cooldown
+    private TickUnit cooldownTickUnit;
+    private int cooldownTime; 
 
     //Constructors: 
 
@@ -74,6 +80,8 @@ public class Ability extends Entry {
         this.castingCosts = null;
 
         this.effects = effects; 
+
+        //default: no cooldown period
     }
 
     /**
@@ -93,6 +101,9 @@ public class Ability extends Entry {
         this.castingCosts = castingCosts; 
 
         this.effects = effects; 
+
+        //default: no cooldown period
+
     }
 
     /**
@@ -115,6 +126,8 @@ public class Ability extends Entry {
         this.castingCosts = castingCosts; 
 
         this.effects = effects;
+
+        //default: no cooldown period
     }
 
     //getters and setters: 
@@ -292,14 +305,14 @@ public class Ability extends Entry {
      * 
      * Registers Passive Triggers when the Passive Ability is loaded.
      */
-    public void register(SceneContext ctx) {
-        triggers.forEach(t -> t.register(ctx));
+    // public void register(SceneContext ctx) {
+    //     triggers.forEach(t -> t.register(ctx));
 
-        if(type.equals(AbilityType.PASSIVE)) {
-            //apply "always-on" effects immediately
-            effects.forEach(e -> e.apply(null, ctx.getActors(), ctx)); 
-        }
-    }
+    //     if(type.equals(AbilityType.PASSIVE)) {
+    //         //apply "always-on" effects immediately
+    //         effects.forEach(e -> e.apply(null, ctx.getActors(), ctx)); 
+    //     }
+    // }
 
     // /*
     //  * This is an important Core Method. 
