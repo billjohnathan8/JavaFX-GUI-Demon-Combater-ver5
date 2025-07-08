@@ -3,10 +3,12 @@ package guidemon.engine.scene;
 import java.util.List; 
 import java.util.stream.*;
 
-import guidemon.engine.event.EventBus; 
+import guidemon.engine.event.EventBus;
+import guidemon.engine.effect.AbilityProcessor;  
 import guidemon.model.actor.Actor; 
 import guidemon.model.combat.Combatant; 
 import guidemon.view.token.Token; 
+
 
 /**
  * The central "bag" of runtime pieces that every system component (Effects, Triggers, UI Handlers) will pull from during a Scene, Combat Encounter etc.
@@ -61,13 +63,15 @@ public class SceneContext {
     private final List<Actor> actors; 
     private final SpaceManager spaceManager; 
     private final TimeManager timeManager; 
+    private final AbilityProcessor abilityProcessor; 
 
-    public SceneContext(EventBus eventBus, List<Token> tokens, List<Actor> actors, SpaceManager spaceManager, TimeManager timeManager) {
+    public SceneContext(EventBus eventBus, List<Token> tokens, List<Actor> actors, SpaceManager spaceManager, TimeManager timeManager, AbilityProcessor abilityProcessor) {
         this.eventBus = eventBus;
         this.tokens = tokens; 
         this.actors = actors; 
         this.spaceManager = spaceManager;
         this.timeManager = timeManager; 
+        this.abilityProcessor = abilityProcessor; 
     }
 
     //only getters: 
@@ -91,6 +95,10 @@ public class SceneContext {
         return this.timeManager; 
     }
 
+    public AbilityProcessor getAbilityProcessor() {
+        return this.abilityProcessor; 
+    }
+
     //Core Methods: 
     
     /**
@@ -104,8 +112,3 @@ public class SceneContext {
                      .collect(Collectors.toList());
     }
 }
-
-/*
-
-
- */
