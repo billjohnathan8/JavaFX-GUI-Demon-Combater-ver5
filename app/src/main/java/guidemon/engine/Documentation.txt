@@ -1,0 +1,128 @@
+Architecture: 
+-Event-Driven
+-Pub/Sub
+-Flyweight Pattern
+
+
+
+Core Features: 
+    -Ability 
+    -Effects
+    -Events
+    -Conditions
+    -Triggers
+
+Ability: A data‐driven container: Metadata (id, name, description, effects), Type (ACTIVE/PASSIVE), ResourceCost + CastingParameters(range, shape, maxTargets), List<ActivationCondition> (pre-cast guards), List<Effect> (what to do), List<Trigger> (for passives or on-cast hooks) - they store effects to be casted via AbilityProcessor. - register(context) for PASSIVE (or on-load triggers) and activate(caster, targets, context) for ACTIVE abilities 
+
+Events: Notifications that the engine publishes when something has happened. It is just an immutable data object that announces "something happened" (no logic, only getters)
+
+Effects: Actions that the engine executes to change or mutate game state. Encapsulates how to change game state (mutates models, may fire Events) e.g. damage, heal, summon etc. - Implements apply(actor, targets, ctx).
+
+Condition: Predicate that inspects either an Event or activation context and returns true or false. Either Passive (EligibilityCondition) or ActivationCondition (checks caster + targets + context before an active ability runs, may check for an incoming Event + context inside a Trigger)
+
+Trigger: "On X Event, if Y Condition passes, invoke Z Effect" - built into the engine (e.g. EffectReactions etc.) Wires Events → Effects when a Condition holds. - register(context) subscribes to the bus ; on event it tests a Condition and, if true, calls one or more Effects. 
+
+
+
+Other Important Classes: 
+    -EventBus
+    -SceneContext
+    -AbilityProcessor 
+
+EventBus: Pub/Sub broker for Events - decouples publishers from subscribers. - register(EventType, handler) and publish(Event e) delivers notifications to decoupled listeners. 
+
+SceneContext: Bag of runtime services & state. Contains EventBus, SpaceManager, TimeManager, AbilityProcessor, List<Token>, ...
+
+AbilityProcessor: Orchestrates an (Active) Ability's Lifecycle.
+                  (1) Casting → (2) Resource Checks → (3) applying Effects → (4) firing Events 
+                  BeginCast → PreCast → ActivationConditionCheck → ResourceCheck → ResourceConsumed → Cast → ApplyEffects → PostCast → InCombat (?)
+                  Publishes one Event per Phase, then loops through ability.getEffects() to invoke each. 
+
+
+
+Summary: 
+Events broadcast “what happened.”
+Effects do “what you asked for.”
+
+Conditions gate when something should fire.
+
+Triggers listen for Events + Conditions → run Effects.
+
+SceneContext bundles your shared services & state.
+
+EventBus connects publishers & subscribers.
+
+AbilityProcessor orders the when of an active ability’s phases.
+
+Ability is pure data + entry-points (register/activate).
+
+
+
+How It All Comes Together:
+Casting a Simple Firebolt spell (2AP, Single-Target, 1d10 Fire Damage).
+
+1) Boostrap the Scene: 
+    EventBus bus     = new EventBus();
+    SpaceManager sm  = new GridSpaceManager(...);
+    TimeManager tm   = new CombatTimeManager(new CombatManager(...));
+    AbilityProcessor ap = new AbilityProcessor(bus);
+
+    SceneContext scene = new SceneContext(bus, allTokens, sm, tm, ap);
+Now everywhere you have a SceneContext, you can publish events, snap tokens, advance turns, and run abilities.
+
+2) Load & Register Abilites: 
+    for (Combatant c : scene.getCombatants()) {
+        Ability firebolt = AbilityRepository.load("firebolt.json");
+        c.getAbilities().add(firebolt);
+        firebolt.register(scene);   // registers its PASSIVE triggers (none here)
+    }
+Passive abilities would hook into the bus now. Active ones prepare any on-equip or on-turn triggers.
+
+3) Player or AI or GM Chooses Cast: 
+    firebolt.activate(caster, List.of(target), scene);  
+
+Inside activate(...):
+• It loops through ActivationConditions (e.g. “has ≥2 AP?”).
+• Calls scene.getCombatManager().consume(caster, cost).
+• Delegates to scene.getAbilityProcessor().execute(this, caster, targets, scene).
+
+4) AbilityProcessor.execute(...) Fires Phases: 
+For each phase it does:
+    bus.publish(new BeginCastEvent(ability, caster, targets));
+    bus.publish(new PreCastEvent(...));
+    bus.publish(new ConditionCheckEvent(...));
+    bus.publish(new ResourceCheckEvent(...));
+    bus.publish(new ResourceConsumedEvent(...));
+    bus.publish(new CastEvent(...));
+    bus.publish(new ApplyEffectsEvent(...));
+    for (Effect e : ability.getEffects()) {
+        e.apply(caster, targets, scene);
+    }
+    bus.publish(new PostCastEvent(...));
+    bus.publish(new InCombatEvent(...));
+
+5) Effect Application & Event Emission: 
+    DamageEffect.apply(...):
+
+• Rolls 1d10, calls scene.getCombatManager().dealDamage(target, amount).
+• Then does scene.getEventBus().publish(new DamageDealtEvent(caster, target, amount, FIRE));
+
+6) Trigger Reacts to Events: 
+Suppose you have a ConditionTrigger for “if target has FrostBite, remove it when they take ≥5 fire damage.” It was registered on load:
+    bus.register(DamageDealtEvent.class, evt -> {
+        if (evt.getType()==FIRE && evt.getAmount() >= 5 && evt.getTarget().hasStatus("FrostBite")) {
+            new RemoveStatusEffect("FrostBite")
+            .apply(evt.getSource(), List.of(evt.getTarget()), scene);
+        }
+    });
+That runs immediately after the damage applies.
+
+7) UI Layer Listens & Renders: 
+• A controller registered for BeginCastEvent draws the targeting ring via scene.getSpaceManager().
+• A handler for DamageDealtEvent flashes the target’s TokenView and shows “−7 HP” floating text.
+
+8) End Result: 
+• The caster spent 2 AP.
+• The target lost HP or had statuses removed.
+• All passive or reaction abilities have had a chance to fire.
+• Every piece (logic, effects, triggers, UI) stayed decoupled via Events and the Bus.
