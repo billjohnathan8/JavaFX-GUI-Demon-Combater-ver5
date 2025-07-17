@@ -71,9 +71,9 @@ Casting a Simple Firebolt spell (2AP, Single-Target, 1d10 Fire Damage).
 Now everywhere you have a SceneContext, you can publish events, snap tokens, advance turns, and run abilities.
 
 2) Load & Register Abilites: 
-    for (Combatant c : scene.getCombatants()) {
+    for (Actor a : scene.getActors()) {
         Ability firebolt = AbilityRepository.load("firebolt.json");
-        c.getAbilities().add(firebolt);
+        a.getAbilities().add(firebolt);
         firebolt.register(scene);   // registers its PASSIVE triggers (none here)
     }
 Passive abilities would hook into the bus now. Active ones prepare any on-equip or on-turn triggers.

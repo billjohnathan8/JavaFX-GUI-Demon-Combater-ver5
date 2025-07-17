@@ -3,7 +3,7 @@ package guidemon.engine.effect;
 import java.util.List; 
 
 import guidemon.engine.scene.SceneContext; 
-import guidemon.model.entry.Entry; 
+import guidemon.model.actor.Actor; 
 
 /*
  * 
@@ -22,9 +22,7 @@ public interface Effect {
      * The single entry point: apply whatever logic yoyu need.
      * 
      * Append and apply the effects to the entries directly.
-     * 
-     * The entry can be either an Actor, Item, etc. anything that has a StatBlock and can be affected by some sort of ability, effect, etc. 
-     * 
+     *       
      * Passive Effects - always active given certain conditions.
      * Active Effects - one-time-use, casting has conditions, not the effect itself. <- Usually applied to combatants via Attack or other Active Abilities. 
      * @param caster the ability's caster (null for passive startup) - who casted the ability
@@ -32,8 +30,10 @@ public interface Effect {
      * @param context the shared context (events, spaceManager, timeManager, roster) - holds SpaceManager, TimeManager, EventBus, etc.
      *
      */
-    void apply(Entry caster, List<Entry> targets, SceneContext context); 
+    void apply(Actor caster, List<Actor> targets, SceneContext context); 
 }
+
+//TODO:  The entry can be either an Actor, Item, etc. anything that has a StatBlock and can be affected by some sort of ability, effect, etc. 
 
 /*
 Conditional: Apply to only ability scores
