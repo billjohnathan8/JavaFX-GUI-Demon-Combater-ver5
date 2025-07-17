@@ -4,7 +4,7 @@ import java.util.List;
 
 import guidemon.engine.effect.TemplateEffect; 
 import guidemon.engine.scene.SceneContext; 
-import guidemon.model.entry.Entry; 
+import guidemon.model.actor.Actor; 
 import guidemon.model.combat.DamageType; 
 
 /**
@@ -20,7 +20,7 @@ public class DamageReductionEffect extends TemplateEffect {
         super(name, tags);
     }
 
-    public void apply(Entry caster, List<Entry> targets, SceneContext context) {
+    public void apply(Actor caster, List<Actor> targets, SceneContext context) {
         //No Caster - actor is null
         //Has Targets
         //Has SceneContext
