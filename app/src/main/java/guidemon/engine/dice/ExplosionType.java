@@ -1,4 +1,4 @@
-package guidemon.model.dice;
+package guidemon.engine.dice;
 
 //For Exploding / Exploding-Compound Dice: 
 public enum ExplosionType {

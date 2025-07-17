@@ -1,10 +1,12 @@
-package guidemon.model.dice;
+package guidemon.engine.dice;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random; 
 import java.util.Collections; 
 import java.util.stream.*; 
+
+//TODO: integrate with dice and roll classes
 
 /**
  * TODO: Utility Class (?)

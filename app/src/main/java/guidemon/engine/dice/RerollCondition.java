@@ -1,4 +1,4 @@
-package guidemon.model.dice;
+package guidemon.engine.dice;
 
 //not considered a Conditional
 public class RerollCondition {

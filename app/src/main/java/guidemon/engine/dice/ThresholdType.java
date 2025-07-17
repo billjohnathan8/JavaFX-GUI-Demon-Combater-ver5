@@ -1,4 +1,4 @@
-package guidemon.model.dice;
+package guidemon.engine.dice;
 
 public enum ThresholdType {
     EQUAL,          // "="
