@@ -1,10 +1,10 @@
 package guidemon.engine.trigger.type;
 
 import guidemon.engine.condition.ActivationCondition;
-import guidemon.engine.effect.Effect;
 import guidemon.engine.event.Event;
 import guidemon.engine.scene.SceneContext;
-import guidemon.engine.trigger.Trigger; 
+import guidemon.engine.trigger.Trigger;
+import guidemon.model.effect.Effect; 
 
 
 

@@ -2,7 +2,7 @@ package guidemon.model.stats.immutable.instances;
 
 import java.util.List;
 
-import guidemon.engine.effect.Effect;
+import guidemon.model.effect.Effect;
 import guidemon.model.entry.Entry;
 import guidemon.model.stats.ResourceOrbState; 
 import guidemon.model.stats.immutable.definitions.ResourceOrbDefinition; 

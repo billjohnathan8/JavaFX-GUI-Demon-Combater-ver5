@@ -3,7 +3,7 @@ package guidemon.model.stats.immutable.definitions;
 import java.util.List; 
 import java.util.ArrayList;
 
-import guidemon.engine.effect.Effect;
+import guidemon.model.effect.Effect;
 import guidemon.model.immutability.BaseDefinition; 
 import guidemon.model.stats.ResourceOrbState; 
 

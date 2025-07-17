@@ -4,14 +4,14 @@ import java.util.List;
 
 import guidemon.engine.condition.ActivationCondition;
 import guidemon.engine.condition.EligibilityCondition;
-import guidemon.engine.effect.Effect;
+import guidemon.engine.scene.SceneContext;
 import guidemon.engine.trigger.Trigger;
-import guidemon.engine.scene.SceneContext; 
 import guidemon.model.actor.Actor;
 import guidemon.model.casting.CastingParameters;
+import guidemon.model.combat.TickUnit;
+import guidemon.model.effect.Effect;
 import guidemon.model.entry.Entry;
 import guidemon.model.stats.ResourceCost; 
-import guidemon.model.combat.TickUnit; 
 
 /**
  * An Ability is an Entry that provides its owner a list of Effects or certain other entries. In the fashion of Providing A while it is active, and removing A when it is deactivated or removed completely. 

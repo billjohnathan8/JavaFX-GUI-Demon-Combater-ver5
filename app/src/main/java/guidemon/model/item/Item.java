@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.Stack;
 
 import guidemon.engine.condition.EligibilityCondition;
-import guidemon.engine.effect.Effect; 
 import guidemon.model.ability.Ability;
+import guidemon.model.effect.Effect;
 import guidemon.model.entry.Entry; 
 import guidemon.model.inventory.InventorySlot;
 import guidemon.model.item.item_model.ItemModel;

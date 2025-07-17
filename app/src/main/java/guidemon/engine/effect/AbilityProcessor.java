@@ -5,7 +5,8 @@ import java.util.List;
 import guidemon.engine.event.EventBus; 
 import guidemon.engine.scene.SceneContext; 
 import guidemon.model.ability.Ability; 
-import guidemon.model.actor.Actor; 
+import guidemon.model.actor.Actor;
+import guidemon.model.effect.Effect; 
 
 /**
  * AbilityProcessor drives the “pipeline” that takes an Ability
@@ -22,10 +23,10 @@ public class AbilityProcessor {
         // bus.publish(new BeginCastEvent(ability, caster, targets)); //depends on auto-cast or not. 
         // … all the other phases …
 
-        for(Effect e : ability.getEffects()) {
+        for (Effect e : ability.getEffects()) {
             e.apply(caster, targets, context);
         }
-
+        
         // bus.publish(mew InCombatEvent(ability, caster, targets));
     }   
 }
