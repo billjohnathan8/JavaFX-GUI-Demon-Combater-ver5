@@ -4,6 +4,8 @@ import java.util.Random;
 
 import guidemon.engine.stat_roller.IStatRollingStrategy;
 
+//TODO: Check whether the distribution is correct, this looks a little low.
+
 /* 1. Roll 3d6
  * 2. Sum all rolled values
  * 3. Take this value for each ability score 
