@@ -1,11 +1,11 @@
 package guidemon.engine.scene;
 
-import java.util.List; 
-import java.util.stream.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import guidemon.engine.effect.AbilityProcessor;
 import guidemon.engine.event.EventBus;
-import guidemon.engine.effect.AbilityProcessor;  
-import guidemon.model.actor.Actor; 
+import guidemon.model.actor.Actor;
 import guidemon.model.combat.Combatant; 
 import guidemon.view.token.Token; 
 

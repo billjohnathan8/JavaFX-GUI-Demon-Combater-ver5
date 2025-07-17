@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import guidemon.engine.effect.Effect;
 import guidemon.model.ability.Ability;
+import guidemon.model.actor.interfaces.Damagable;
 import guidemon.model.combat.DamageType;
 import guidemon.model.combat.TickUnit;
 import guidemon.model.dice.Dice;
@@ -16,17 +17,15 @@ import guidemon.model.inventory.InventorySlot;
 import guidemon.model.inventory.Limb;
 import guidemon.model.levels.Level;
 import guidemon.model.proficiencies.Proficiency;
+import guidemon.model.stats.DamageMultiplier;
 import guidemon.model.stats.HealthLayer;
 import guidemon.model.stats.ResourceOrbState;
-import guidemon.model.stats.DamageMultiplier;
 import guidemon.model.stats.immutable.instances.AbilityScoreEntry;
 import guidemon.model.stats.immutable.instances.MovementTypeEntry;
 import guidemon.model.stats.immutable.instances.PassiveScoreEntry;
 import guidemon.model.stats.immutable.instances.ResourceEntry;
 import guidemon.model.stats.immutable.instances.ResourceOrbEntry;
-import guidemon.model.vision.senses.Sense;
-
-import guidemon.model.actor.interfaces.Damagable; 
+import guidemon.model.vision.senses.Sense; 
 
 //aka character? 
 public class Actor extends Entry implements Damagable {
@@ -173,17 +172,20 @@ public class Actor extends Entry implements Damagable {
     private Inventory armourInventory;                 //helmet, chestplate, leggings, boots
     private Inventory modularArmourInventory;          //for modular armour 
     private InventorySlot backpack;                    //for backpack item for storage inventory for backpack inventory 
-    private Inventory externalHand;                    //e.g. rostered items, summoned items, temporary items etc.
+    private Inventory externalHand;                         //e.g. rostered items, summoned items, temporary items etc.
 
+    //TODO: turn otherResources and otherPassiveScores into Map for faster lookup time (?)
     private List<ResourceEntry> otherResources;             //for other resources
     private List<PassiveScoreEntry> otherPassiveScores;     //for other passive scores 
 
-    private List<Sense> senses;                        //senses 
-    private List<Proficiency> proficiencies;           //crafting recipes, crafting station, item, langauge, skill, generic
+    private List<Sense> senses;                             //senses 
+    private List<Proficiency> proficiencies;                //crafting recipes, crafting station, item, langauge, skill, generic
 
-    private List<Ability> abilities;                   //including source 
+    private List<Ability> abilities = new ArrayList<>();    //including source
+                                                            //TODO: abilities is final 
 
-    private List<Effect> effects;                      //list of all effects currently on this statblock <- inside it is active or not. 
+    private List<Effect> effects = new ArrayList<>();       //list of all effects currently on this statblock <- inside it is active or not. 
+                                                            //TODO: effects ais final 
 
     //TODO: getters and setters
 
@@ -248,6 +250,30 @@ public class Actor extends Entry implements Damagable {
     //TODO: Remove Armour Layer
 
     //TODO: getTotalAC()
+
+    /**
+     * Add and remove abilities from here.
+     * 
+     * @return abilities
+     */
+    public List<Ability> getAbilites() {
+        return this.abilities; 
+    }
+
+    //no setter - change actor/statblock entirely if the entire ability list is replaced
+
+    /**
+     * Add and remove effects from here. 
+     * 
+     * TODO: integration with abiliites.
+     * 
+     * @return effects
+     */
+    public List<Effect> getEffects() {
+        return this.effects; 
+    }
+
+    //no setter - TODO: effects (?)
     
     //TODO: WIP
     public Actor(String name) {

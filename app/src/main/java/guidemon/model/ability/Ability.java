@@ -300,48 +300,55 @@ public class Ability extends Entry {
         }
     }
 
+    //Core Methods: 
     /**
      * This is an important Core Method. 
      * 
-     * Registers Passive Triggers when the Passive Ability is loaded.
+     * Registers Passive Triggers when a Passive Ability is loaded
      */
-    // public void register(SceneContext ctx) {
-    //     triggers.forEach(t -> t.register(ctx));
+    public void register(SceneContext context) {
+        triggers.forEach(t -> t.register(context)); 
 
-    //     if(type.equals(AbilityType.PASSIVE)) {
-    //         //apply "always-on" effects immediately
-    //         effects.forEach(e -> e.apply(null, ctx.getActors(), ctx)); 
-    //     }
-    // }
+        if(type.equals(AbilityType.PASSIVE)) {
+            //apply "always-on" effects immediately
+            effects.forEach(e -> e.apply(null, context.getActors(), context));
+        }
+    }
 
-    // /*
-    //  * This is an important Core Method. 
-    //  * 
-    //  * Overloaded Method. 
-    //  * 
-    //  * Activate an active ability outside of combat. 
-    //  */
-    // public void activate(Actor caster, List<Actor> targets) {
-    //     //1. Check ActivationCondition / Gating Conditions
-    //     if(isOn == false) {
-    //         throw new IllegalStateException("Cannot cast because ability is OFF");
-    //     }
-
-    //     for (ActivationCondition ac : castingConditions) {
-    //         if(!ac.test(caster, targets)) {
-    //             throw new IllegalStateException("Cannot cast: " + ac); 
-    //         }
-    //     }
-
-    //     //2. Reduce/Deduce Resources
-
-    //     //3. Let the AbilityProcessor drive the pipeline 
-    // }
-
-    /*
-     * activate during combat 
+    /**
+     * This is an important Core Method.
+     *
+     * Activate an Active Ability.
+     * 
+     * Can happen during cobat or out-of-combat. 
+     * 
+     * TODO: Overloaded method.
      */
-    //TODO: Activate an Ability during Combat? 
+    public void activate(Actor caster, List<Actor> targets, SceneContext context) {
+        //1. Check ActivationCondition / GatingCondition
+        if(isOn == false) {
+            throw new IllegalStateException("Cannot case because ability is OFF");
+        }
+
+        for(ActivationCondition ac : castingConditions) {
+            if(!ac.test(caster, targets, context)) {
+                //TODO: only activate during combat or outside, etc.
+
+                //TODO: toString() for ActivationCondition
+                throw new IllegalStateException("Cannot cast: " + ac);
+            }
+        }
+
+        //2. Reduce / Deduce Resources
+        
+        //throw a resource cost event. 
+        //search for resources. 
+        //reduce it
+
+        // this.castingCosts = null;
+
+        //3. Let the AbilityProcessor drive the Pipeline 
+    }
 }
 
 //TODO: Ability Progression

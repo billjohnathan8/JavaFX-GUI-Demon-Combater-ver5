@@ -5,7 +5,7 @@ import java.util.List;
 import guidemon.engine.event.EventBus; 
 import guidemon.engine.scene.SceneContext; 
 import guidemon.model.ability.Ability; 
-import guidemon.model.entry.Entry; 
+import guidemon.model.actor.Actor; 
 
 /**
  * AbilityProcessor drives the “pipeline” that takes an Ability
@@ -18,7 +18,7 @@ public class AbilityProcessor {
         this.bus = bus; 
     }
 
-    public void execute(Ability ability, Entry caster, List<Entry> targets, SceneContext context) {
+    public void execute(Ability ability, Actor caster, List<Actor> targets, SceneContext context) {
         // bus.publish(new BeginCastEvent(ability, caster, targets)); //depends on auto-cast or not. 
         // … all the other phases …
 

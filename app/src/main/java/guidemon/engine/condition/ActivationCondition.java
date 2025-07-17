@@ -21,8 +21,8 @@ public interface ActivationCondition extends Condition {
     //TODO:     
 
     //overloaded method for events, does not affect any single target - but mainly affects the scene. 
-    boolean test(Event e, SceneContext context);
+    boolean test(Actor caster, Event e, SceneContext context);
 
     //overloaded method for events, affects targets auto-casted. 
-    boolean test(List<Actor> targets, Event e, SceneContext context);
+    boolean test(Actor caster, List<Actor> targets, Event e, SceneContext context);
 }
