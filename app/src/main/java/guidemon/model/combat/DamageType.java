@@ -11,7 +11,7 @@ public enum DamageType {
 
     SURGE(),
     PIERCING(),
-    LACERATING(), //ranged slashing - special for wind spells etc. aka gashing ? 
+    LACERATING(),      //ranged slashing - special for wind spells etc. aka gashing ? 
 
     CUT(SLASHING, LACERATING),
     BLUNT_FORCE_TRAUMA(BLUDGEONING, SURGE),
@@ -21,16 +21,16 @@ public enum DamageType {
     
     MARTIAL(CUT, BLUNT_FORCE_TRAUMA, PUNCTURING, STRIKING),
 
-    WEIGHT(),     //from falling damage 
+    WEIGHT(),         //from falling damage 
 
     FIRE(),
     WATER(),
-    COLD(),        //aka ice
+    COLD(),           //aka ice
     LIGHTNING(), 
-    THUNDER(),     //aka sound 
-    EARTH(),       //aka stone / rock/ dirt
+    THUNDER(),        //aka sound / sonar
+    EARTH(),          //aka stone / rock / dirt / gaia / sand
     BEASTWOOD(), 
-    ACID(),        //aka poison
+    ACID(),           //aka poison
     WIND(), 
     RADIANT(), 
 
@@ -57,8 +57,8 @@ public enum DamageType {
     STRONG_NUCLEAR(),
     NUCLEAR(WEAK_NUCLEAR, STRONG_NUCLEAR), 
     GRAVITATIONAL(),    
-    MAGNETIC(),      //magnetic
-    ELECTROMAGNETIC(MAGNETIC, LIGHTNING), //includes heat dissipated 
+    MAGNETIC(),                                           //magnetic
+    ELECTROMAGNETIC(MAGNETIC, LIGHTNING),                 //includes heat dissipated 
 
     DARKNESS(UMBRAL, SHADOW), 
     CANDELA(RADIANT, DARKNESS, STELLAR), 
@@ -67,68 +67,71 @@ public enum DamageType {
     SIX_FORCES(FORCE, MECHANICAL, NUCLEAR, ELECTROMAGNETIC, GRAVITATIONAL, NEOMECHANICAL), 
 
     STEAM(FIRE, WATER),
-    PURE_WATER(WATER, COLD), 
-    ALETA(FIRE, LIGHTNING), //aka Pure Alpha-Betas
-    // CRACKLING(LIGHTNING, THUNDER), 
-    MAGMA(FIRE, EARTH),       //aka volcanic 
-    SCORCH(FIRE, BEASTWOOD), 
+    PURE_WATER(FIRE, COLD), 
+    ALETA(FIRE, LIGHTNING),            //aka Pure Alpha-Betas
+    CRACKLING(FIRE, THUNDER), 
+    MAGMA(FIRE, EARTH),                //aka volcanic
+    SCORCH(FIRE, BEASTWOOD),           //aka scorched / ashen / smokes
+    WRITHING(FIRE, ACID),           
+    NONG_HUO(FIRE, WIND),              //aka Bluefire
 
+    FROST(WATER, COLD),                //aka Frozen, Freezing, Blue Water, Packed Ice
+    MODULATED(WATER, LIGHTNING), 
+    WAVE(WATER, THUNDER),              //aka Ripple
+    MUD(WATER, EARTH),
+    HYDROVIRI(WATER, BEASTWOOD),       //aka Oceanic, Coral
+    FLUISON(WATER, ACID),
+    MIST(WATER, WIND),                 //aka Fog, Bog
 
-// Scorch
-// Writhing
-// Bluefire
-// Frost
-// Modulated
-// Ripple
-// Mud
-// Oceanic
-// Fluison
-// Mist
-// Blue Lichten
-// Echoing Moment
-// Wilting
-// Breeze
-// Storm
-// Lichten
-// Charged
-// Strong Culgre
-// Tempest
-// Reserved
-// Proclaiming
-// Persisting Culgre
-// Whispering
-// Pure Life
-// Accepting Decay
-// Vitriolic
-// Strong Breakdown
-// Zen
-// Regretful Decay
+    BLUE_LICHTEN(COLD, LIGHTNING),
+    ECHOING_MOMENT(COLD, THUNDER),
+    INERT(COLD, EARTH),          
+    FROZEN_MOMENT(COLD, BEASTWOOD),
+    FADING(COLD, ACID),
+    SNOW(COLD, WIND),
 
-//smoke
-//dust
-//sand 
+    STORM(LIGHTNING, THUNDER),
+    LICHTEN(LIGHTNING, EARTH),
+    CHARGE(LIGHTNING, BEASTWOOD),
+    STRONG_CULGRE(LIGHTNING, ACID),    //aka Strong Culling Green
+    TEMPEST(LIGHTNING, WIND),
+    
+    RESERVED(THUNDER, EARTH),
+    PROCLAIMING(THUNDER, BEASTWOOD),
+    PERSISTING_CULGRE(THUNDER, ACID),  //aka Persisting Culling Green
+    WHISPER(THUNDER, WIND),
 
-    WILTING(), 
-    FADING(), 
+    PURE_LIFE(EARTH, BEASTWOOD),       //aka living damage, bioaspect damage
+    ACCEPTING_DECAY(EARTH, ACID),
+    VITRIOLIC(EARTH, WIND),          
 
-    COMPOUND_ELEMENTAL(), 
+    STRONG_BREAKDOWN(BEASTWOOD, ACID),
+    ZEN(BEASTWOOD, WIND),              //aka peace, harmony
+    REGRETFUL_DECAY(ACID, WIND),
+
+    DUST(VITRIOLIC, SCORCH),  
+
+    GROOVY(EARTH, WIND, FIRE), 
+    
+    COMPOUND_ELEMENTAL(STEAM, PURE_WATER, ALETA, CRACKLING, MAGMA, SCORCH, WRITHING, NONG_HUO, FROST, MODULATED, WAVE, MUD, HYDROVIRI, FLUISON, MIST, BLUE_LICHTEN, ECHOING_MOMENT, INERT, FROZEN_MOMENT, FADING, SNOW, STORM, LICHTEN, CHARGE, STRONG_CULGRE, TEMPEST, RESERVED, PROCLAIMING, PERSISTING_CULGRE, WHISPER, PURE_LIFE, ACCEPTING_DECAY, VITRIOLIC, STRONG_BREAKDOWN, ZEN, REGRETFUL_DECAY, DUST, GROOVY), 
     TRUE_ELEMENTAL(ELEMENTAL, COMPOUND_ELEMENTAL),
     
-    IRONED(METALLURGIC),  //against fey
+    IRONED(METALLURGIC),     //against fey
     BRONZED(METALLURGIC), 
     SILVERED(METALLURGIC), 
     GOLDEN(METALLURGIC),
-    PLATINA(METALLURGIC), //platinum
+    PLATINA(METALLURGIC),    //platinum
     BRASSED(METALLURGIC),
     JEWELLED(EARTH), 
 
-    CHRONAL(SOLAR, LUNAR), //aka time 
-    WILLFIRE(),            //from willpower
-    COMPLEX_IMAGINARY(),   //higher dimensional 
+    CHRONAL(SOLAR, LUNAR),   //aka time 
+    WILTING(), 
+    WILLFIRE(),              //from willpower
+    COMPLEX_IMAGINARY(),     //higher dimensional 
     SPATIAL(CHRONAL, ASTRAL, SIX_FORCES, COMPLEX_IMAGINARY), //dunamancy - control over spacetime, aka topological  
     PLANAR(),
-    EXTRA_PLANAR(), //portal snap + spatial fissure + exotic etc.
-    ILLOGICAL(),    //aka chaos 
+    EXTRA_PLANAR(),          //portal snap + spatial fissure + exotic etc.
+    ILLOGICAL(),             //aka chaos 
 
     WILDFIRE(), 
     HELLFIRE(), 
