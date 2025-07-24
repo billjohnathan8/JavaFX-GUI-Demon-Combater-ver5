@@ -1,4 +1,4 @@
-package guidemon.engine.dice;
+package guidemon.engine.dice.command_roller;
 
 //not considered a Conditional
 public class RerollCondition {

@@ -44,6 +44,10 @@ public class Actor extends Entry implements Damagable {
     private AbilityScoreEntry wisdom;                 //WIS
     private AbilityScoreEntry charisma;               //CHA
 
+    //cached
+    private AbilityScoreEntry hitCheckAbility;        //HIT
+    private AbilityScoreEntry damageModifierAbility;  //DAM
+
     //optional ability scores: 
     // private AbilityScoreEntry instinct;            //INS
     // private AbilityScoreEntry balance;             //BAL
@@ -54,7 +58,6 @@ public class Actor extends Entry implements Damagable {
     private ResourceEntry hitPoints;                  //HP
     private ResourceEntry manaPoints;                 //MP
     private List<MovementTypeEntry> movementSpeeds;   //SPD (inclusive BaseSPD)
-    private List<ResourceOrbEntry> actionPoints;      //AP (inclusive VersatileAP)
     private Stack<HealthLayer> shieldLayers;          //SHD (shields, in order of shield layers)
     private Stack<HealthLayer> armourLayers;          //AC (non-true, in order of armour layers)
     private List<ResourceOrbEntry> summoningSlots;    //SUM
@@ -106,8 +109,12 @@ public class Actor extends Entry implements Damagable {
     private double trudgeMultiplier;             //xTRUDGE
     private double criticalMultiplier;           //xCRIT
 
-    private List<Integer> criticalChance;        //CRIT%
-    private double criticalModifier;             //CRITmod - added true damage on every critical hit 
+    //Threat Range / Critical Threshold: 
+    // private int minimumCriticalValue;         //minCRIT    - minimum value for a hit to be considered critical used for display only (?)
+    private int criticalModifier;                //CRITmod    - maximum dice value on hit check - criticalModifier = minimumCriticalValue
+    private int criticalDamageModifier;          //CRITdamMod - bonus damage inflicted on every critical hit
+    private double criticalChance;               //CRIT%      - derived, used for display only 
+    private int trueCriticalDamageModifier;      //tCRITmod   - added true damage on every critical hit - on top of the true critical damage from critical hit. 
 
     private double deathHealthPercentage;        //DHP% 
     private double bloodiedPercentage;           //BLD%
@@ -188,49 +195,6 @@ public class Actor extends Entry implements Damagable {
                                                             //TODO: effects ais final 
 
     //TODO: getters and setters
-
-    public List<ResourceOrbEntry> getActionPoints() {
-        return this.actionPoints; 
-    }
-
-    public void setActionPoints(List<ResourceOrbEntry> actionPoints) {
-        this.actionPoints = actionPoints;
-    }
-
-    /**
-     * Counts the number of Versatile AP that is also FREE
-     * 
-     * @return curAP
-     */
-    public int getCurAP() {
-        int result = 0;
-
-        for (int i = 0;  i < actionPoints.size() ; i++) {
-            if(actionPoints.get(i).getType().equals("Versatile") && actionPoints.get(i).getState().equals(ResourceOrbState.FREE)) {
-                result++;
-            }
-        }
-        
-        return result; 
-    }
-
-    /**
-     * Counts the number of Versatile AP.
-     * 
-     * @return maxAP
-     */
-    public int getMaxAP() {
-        int result = 0;
-
-        for (int i = 0;  i < actionPoints.size() ; i++) {
-            if(actionPoints.get(i).getType().equals("Versatile")) {
-                result++;
-            }
-        }
-        
-        return result; 
-    }
-
     public MovementTypeEntry getCurrentMovementType() {
         return this.currentMovementType; 
     }
@@ -256,7 +220,7 @@ public class Actor extends Entry implements Damagable {
      * 
      * @return abilities
      */
-    public List<Ability> getAbilites() {
+    public List<Ability> getAbilities() {
         return this.abilities; 
     }
 
@@ -274,7 +238,37 @@ public class Actor extends Entry implements Damagable {
     }
 
     //no setter - TODO: effects (?)
-    
+
+
+    //TODO: refactor 
+    public double getCriticalMultiplier() {
+        return this.criticalMultiplier; 
+    }
+
+    public int getCriticalDamageModifier() {
+        return this.criticalDamageModifier; 
+    }
+
+    public int getCriticalModifier() {
+        return this.criticalModifier; 
+    }
+
+    public AbilityScoreEntry getHitCheckAbility() {
+        return this.hitCheckAbility;
+    }
+
+    public void setHitCheckAbility(AbilityScoreEntry hitCheckAbility) {
+        this.hitCheckAbility = hitCheckAbility;
+    }
+
+    public AbilityScoreEntry getDamageModifierAbility() {
+        return this.damageModifierAbility; 
+    }
+
+    public void setDamageModifierAbility(AbilityScoreEntry damageModifierAbility) {
+        this.damageModifierAbility = damageModifierAbility;
+    }
+
     //TODO: WIP
     public Actor(String name) {
         super(name); 
@@ -296,7 +290,7 @@ public class Actor extends Entry implements Damagable {
      * The actor uses their main health as a gauge for how 'alive' or how healthy the actor is. I.e, whether they can survive future attacks or the general state of being of the actor. All actors aim to keep this above 0 and most definitely above their deathHP to avoid death. 
      * 
      * The DamageEvent will deal damage in the following hierarchy of HealthLayers unless specified otherwise via other overloaded methods to take damage:
-     * 0. Handle External Damage Reduction (e.g. Parry, Guard, etc.)
+     * 0. Handle External Damage Reduction (e.g. Parry, Guard, Effect Reactions, etc.)
      * 1. Handle Armour Penetration and Layer-Specific Damage
      * 2. True Armour Class (tAC)
      * 3. Shield Layers: 

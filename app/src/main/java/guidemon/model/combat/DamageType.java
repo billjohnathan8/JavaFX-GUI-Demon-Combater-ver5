@@ -161,10 +161,11 @@ public enum DamageType {
     RIGHTEOUS(),
     ALEAN(PROGREDIAN, ARCADIAN, BYTOPIC, ELYSIAN, INTELLIGENCE_ENERGY, VIBRANT, RIGHTEOUS), //is often paired with divine.
 
-    //different kinds of poison damage 
-    //bugs 
-
-    FRENZIED(ALETA), //fire, necrotic
+    //different kinds of poison damage - from bugs
+    TRUE_CULGRE(PERSISTING_CULGRE, STRONG_CULGRE),
+    INSECTOXIN(TRUE_CULGRE),
+    
+    FRENZIED(ALETA),         //fire, necrotic
     PRIMAL(ALETA, SCORCH),   //fire, beastwood, lightning, necrotic <-
 
     RACIAL(DRACONIC_ELEMENTAL, FIENDISH, ALEAN, PRIMAL),
@@ -185,7 +186,7 @@ public enum DamageType {
 
     PHYSICAL(MARTIAL, WEIGHT, EARTH, THUNDER, WIND, FORCE, METALLURGIC, MECHANICAL, UMBRAL, GRAVITATIONAL, MAGNETIC),
     ENERGY(TRUE_ELEMENTAL, PRINCIPAL_ELEMENTAL, SIX_FORCES, DIVINE, BLASPHEMOUS, MAGIC, BASED), 
-    MAGICAL(MAGIC, ENERGY, DANEN),
+    MAGICAL(MAGIC, ENERGY, DANEN, DIVINE, BLASPHEMOUS),
 
     ALL(PHYSICAL, MAGICAL, ENERGY, SOCIAL, RACIAL);
 

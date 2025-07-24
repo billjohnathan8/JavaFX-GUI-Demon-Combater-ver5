@@ -1,6 +1,10 @@
 package guidemon.model.combat;
 
+import java.util.List;
+
 import guidemon.model.actor.Actor;
+import guidemon.model.stats.ResourceOrbState;
+import guidemon.model.stats.immutable.instances.ResourceOrbEntry;
 
 public class Combatant extends Actor {
     private int initiative; 
@@ -40,6 +44,7 @@ public class Combatant extends Actor {
     // private List<ActionPoint> actionPoints;      //AP (inclusive VersatileAP)
     private int totalSpeedSpent;                    //spentSPD - all movement already spent on the turn for use during movementType switch
     // private List<MovementType> movementSpeeds;   //SPD (inclusive BaseSPD)
+    private List<ResourceOrbEntry> actionPoints;      //AP (inclusive VersatileAP)
     // private Resource manaPoints;                 //MP
     // private List<ResourceOrb> summoningSlots;    //SUM
     // private Resource saturation;                 //SAT
@@ -144,5 +149,68 @@ public class Combatant extends Actor {
 
     public void modifyTotalSpeedSpent(int amount) {
         this.totalSpeedSpent += amount; 
+    }
+
+
+
+
+    public List<ResourceOrbEntry> getActionPoints() {
+        return this.actionPoints; 
+    }
+
+    public void setActionPoints(List<ResourceOrbEntry> actionPoints) {
+        this.actionPoints = actionPoints;
+    }
+
+    /**
+     * Counts the number of Versatile AP that is also FREE
+     * 
+     * @return curAP
+     */
+    public int getCurAP() {
+        int result = 0;
+
+        for (int i = 0;  i < actionPoints.size() ; i++) {
+            if(actionPoints.get(i).getType().equals("Versatile") && actionPoints.get(i).getState().equals(ResourceOrbState.FREE)) {
+                result++;
+            }
+        }
+        
+        return result; 
+    }
+
+    /**
+     * Counts the number of Versatile AP.
+     * 
+     * @return maxAP
+     */
+    public int getMaxAP() {
+        int result = 0;
+
+        for (int i = 0;  i < actionPoints.size() ; i++) {
+            if(actionPoints.get(i).getType().equals("Versatile")) {
+                result++;
+            }
+        }
+        
+        return result; 
+    }
+
+    //reset all used AP at the start of a round etc.
+    public void resetAP() {
+        for(int i = 0 ; i < actionPoints.size() ; i++) {
+            if(actionPoints.get(i).getState().equals(ResourceOrbState.USED)) {
+                actionPoints.get(i).setState(ResourceOrbState.FREE); 
+            }
+        }
+    }
+
+    //spend AP
+    public void spendAP(int amount, String apType) {
+        for(int i = 0 ; i < amount ; i++) {
+            if(actionPoints.get(i).getType().equals(apType)) {
+                actionPoints.get(i).setState(ResourceOrbState.USED);
+            }
+        }
     }
 }

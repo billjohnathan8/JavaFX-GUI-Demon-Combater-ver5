@@ -1,21 +1,21 @@
-package guidemon.engine.dice;
+package guidemon.engine.dice.command_roller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random; 
-import java.util.Collections; 
-import java.util.stream.*; 
+import java.util.Random;
 
-//TODO: integrate with dice and roll classes
+import guidemon.model.dice.Dice; 
 
 /**
  * TODO: Utility Class (?)
+ * 
+ * Used for parsing user inputs / expressions for rolling.  
  * 
  * Purely used for number values (not booleans)
  * 
  * Evaluate success in a different roller class entirely. 
  */
-public class DiceRoller {
+public class CommandDiceRoller {
     private static final Random RNG = new Random(); 
     private String input; 
     private int pos; 
@@ -436,8 +436,15 @@ public class DiceRoller {
      */
     private String peekIdentifier() {
         int i = pos;
-        while (i < input.length() && Character.isLetter(input.charAt(i))) i++;
-        if (i>pos) return input.substring(pos, i);
+
+        while (i < input.length() && Character.isLetter(input.charAt(i))) {
+            i++; 
+        }
+
+        if(i > pos) {
+            return input.substring(pos, i);
+        }
+
         return null;
     }
 }

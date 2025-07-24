@@ -1,17 +1,24 @@
 package guidemon.model.ability;
 
+import java.util.ArrayList;
 import java.util.List; 
+import java.util.Map;
+import java.util.Set;
 
+import guidemon.engine.condition.Condition;
 import guidemon.engine.condition.ActivationCondition;
 import guidemon.engine.condition.EligibilityCondition;
 import guidemon.engine.scene.SceneContext;
 import guidemon.engine.trigger.Trigger;
+import guidemon.engine.event.Event;
 import guidemon.model.actor.Actor;
 import guidemon.model.casting.CastingParameters;
 import guidemon.model.combat.TickUnit;
+import guidemon.model.combat.Duration; 
 import guidemon.model.effect.Effect;
 import guidemon.model.entry.Entry;
 import guidemon.model.stats.ResourceCost; 
+
 
 /**
  * An Ability is an Entry that provides its owner a list of Effects or certain other entries. In the fashion of Providing A while it is active, and removing A when it is deactivated or removed completely. 
@@ -30,26 +37,23 @@ public class Ability extends Entry {
     //load this into a statblock for display or from statblock for id, name, description 
     
     private AbilityType type;
-    private List<String> abilityTags; 
+    private List<String> tags; 
     
     //TODO: move to a method that checks all requisites etc.
-    private boolean isOn; //is this ability currently going to take effect? or grant any other abilities (in the case of LinchpinAbilities)
-    private List<EligibilityCondition> requisites; //ensures that this ability remains 'on' (note: this is different from casting conditions) 
-    private List<Trigger> triggers;     //for conditional Passive Abilities that may trigger passive or active effects. 
+    private boolean isOn;                                       //is this ability currently going to take effect? or grant any other abilities (in the case of LinchpinAbilities)
+    private List<EligibilityCondition> requisites;              //ensures that this ability remains 'on' (note: this is different from casting conditions) 
 
-    //TODO: Maintenance Costs - resource costs for this ability just being on. 
+    private Map<Trigger, Effect> triggers;                      //for conditional Passive that may trigger on passive or active effects or Active Abilities that are auto-casted 
+    
+    private Map<Duration, List<ResourceCost>> maintenanceCosts; //resource costs for this ability just remaining on in combat or outside of combat (i.e, every 1AP or every 100ms)
 
-    private List<ActivationCondition> castingConditions; //allows or disallows casting for Active Abilities (aka: Gating Conditions)
-    private CastingParameters castingParameters;  
-    private List<ResourceCost> castingCosts;    
+    private CastingParameters castingParameters;
 
-    private List<Effect> effects;                       //what does this ability do? what will it do to its targets (self for passive, etc. OR the targets of the cast)
+    private List<Effect> effects;                               //what does this ability do? what will it do to its targets (self for passive, etc. OR the targets of the cast)
 
     private String description; 
 
-    //TODO: Cooldown
-    private TickUnit cooldownTickUnit;
-    private int cooldownTime; 
+    private Duration cooldownDuration;                          //how long until the ability can be casted again - is used as a part of the ActivationCondition 
 
     //Constructors: 
 
@@ -65,69 +69,71 @@ public class Ability extends Entry {
     /**
      * This constructor is generally used for Passive Abilities - which mainly affect the actor owning this ability. 
      */
-    public Ability(String name, AbilityType type, List<String> abilityTags, String description, List<EligibilityCondition> requisites, List<Trigger> triggers, List<Effect> effects) {
+    public Ability(String name, AbilityType type, List<String> tags, String description, List<EligibilityCondition> requisites, Map<Trigger, Effect> triggers, List<Effect> effects, Map<Duration, List<ResourceCost>> maintenanceCosts) {
         this(name); 
         this.type = type; 
-        this.abilityTags = abilityTags;
+        this.tags = tags;
         this.description = description;
 
         this.requisites = requisites; 
         this.triggers = triggers;
 
         //no active part of this ability
-        this.castingConditions = null;
         this.castingParameters = null;
-        this.castingCosts = null;
 
         this.effects = effects; 
 
         //default: no cooldown period
+        this.cooldownDuration = null; 
+
+        this.maintenanceCosts = maintenanceCosts; 
     }
 
     /**
      * This constructor is generally used for Active Abilities that do not have any auto-casting. I.e, they prompt the user for activation. 
      */
-    public Ability(String name, AbilityType type, List<String> abilityTags, String description, List<EligibilityCondition> requisites, List<ActivationCondition> castingConditions, CastingParameters castingParameters, List<ResourceCost> castingCosts, List<Effect> effects) {
+    public Ability(String name, AbilityType type, List<String> tags, String description, List<EligibilityCondition> requisites, CastingParameters castingParameters, List<Effect> effects, Duration cooldownDuration, Map<Duration, List<ResourceCost>> maintenanceCosts) {
         this(name); 
         this.type = type; 
-        this.abilityTags = abilityTags; 
+        this.tags = tags; 
         this.description = description; 
 
         this.requisites = requisites; 
         this.triggers = null;    //no trigger, since the 'trigger' is the activation condition of the Active Ability
 
-        this.castingConditions = castingConditions;
         this.castingParameters = castingParameters; 
-        this.castingCosts = castingCosts; 
 
         this.effects = effects; 
 
-        //default: no cooldown period
-
+        this.cooldownDuration = cooldownDuration; 
+        
+        this.maintenanceCosts = maintenanceCosts; 
     }
 
     /**
-     * This constructor is generally used for Active Abilities that are automatically casted aka, auto-casted. 
+     * This constructor is generally used for Active Abilities that are automatically casted aka, auto-casted.
      * 
      * These abilities are casted without prompting the user. 
      */
-    public Ability(String name, AbilityType type, List<String> abilityTags, String description, List<EligibilityCondition> requisites, List<Trigger> triggers, List<ActivationCondition> castingConditions, CastingParameters castingParameters, List<ResourceCost> castingCosts, List<Effect> effects) {
+    public Ability(String name, AbilityType type, List<String> tags, String description, List<EligibilityCondition> requisites, Map<Trigger, Effect> triggers, CastingParameters castingParameters, List<Effect> effects) {
         this(name);
         this.type = type;
-        this.abilityTags = abilityTags; 
+        this.tags = tags; 
         this.description = description; 
 
         this.requisites = requisites; 
         this.triggers = triggers;        //what triggers the auto-cast? 
 
         //TODO: auto-cast determines this from an event etc.
-        this.castingConditions = castingConditions;
         this.castingParameters = castingParameters; 
-        this.castingCosts = castingCosts; 
 
         this.effects = effects;
 
         //default: no cooldown period
+        this.cooldownDuration = cooldownDuration; 
+        
+        //default: no maintenance because very short
+        this.maintenanceCosts = maintenanceCosts; 
     }
 
     //getters and setters: 
@@ -142,15 +148,15 @@ public class Ability extends Entry {
     /**
      * Use this getter to add and remove tags individually.
      */
-    public List<String> getAbilityTags() {
-        return this.abilityTags; 
+    public List<String> getTags() {
+        return this.tags; 
     }
 
     /**
      * Rarely used. But if used - use this setter to change out an entire group of effects in one instantaneous transaction. 
      */
-    public void setAbilityTags(List<String> abilityTags) {
-        this.abilityTags = abilityTags; 
+    public void setTags(List<String> tags) {
+        this.tags = tags; 
     }
 
     public String getDescription() {
@@ -193,31 +199,15 @@ public class Ability extends Entry {
      * 
      * This is also generally used during the stage when the Engine parses Conditions
      */
-    public List<Trigger> getTriggers() {
+    public Map<Trigger, Effect> getTriggers() {
         return this.triggers; 
     }
 
     /*
      * Rarely used. But if used - use this setter to change out an entire group of Triggers for requisites in one instantaneous transaction.
      */
-    public void setTriggers(List<Trigger> triggers) {
+    public void setTriggers(Map<Trigger, Effect> triggers) {
         this.triggers = triggers; 
-    }
-
-    /*
-     * Use this getter to add and remove ActivationConditions for castingConditions individually.
-     * 
-     * This is also generally used during the stage when the Engine parses Conditions
-     */
-    public List<ActivationCondition> getCastingConditions() {
-        return this.castingConditions; 
-    }
-
-    /*
-     * Rarely used. But if used - use this setter to change out an entire group of ActivationConditions for castingConditions in one instantaneous transaction.
-     */
-    public void setCastingConditions(List<ActivationCondition> castingConditions) {
-        this.castingConditions = castingConditions; 
     }
 
     /*
@@ -237,20 +227,6 @@ public class Ability extends Entry {
     }
 
     /*
-     * Use this getter to add and remove ResourceCosts for castingCosts individually.
-     */
-    public List<ResourceCost> getCastingCosts() {
-        return this.castingCosts; 
-    }
-
-    /*
-     * Rarely used. But if used - use this setter to change out an entire group of ResourceCosts for castingCosts in one instantaneous transaction.
-     */
-    public void setCastingCosts(List<ResourceCost> castingCosts) {
-        this.castingCosts = castingCosts; 
-    }   
-
-    /*
      * Use this getter to add and remove effects individually.
      */
     public List<Effect> getEffects() {
@@ -264,6 +240,34 @@ public class Ability extends Entry {
      */
     public void setEffects(List<Effect> effects) {
         this.effects = effects; 
+    }
+
+    /**
+     * Use this getter to retrieve the cooldown duration.
+     */
+    public Duration getCooldownDuration() {
+        return this.cooldownDuration; 
+    }
+
+    /**
+     * Use this setter to set a new cooldown duration. 
+     */
+    public void setCooldownDuration(Duration cooldownDuration) {
+        this.cooldownDuration = cooldownDuration; 
+    }
+
+    /**
+     * Use this getter to add and remove maintenance costs at different durations or the resource costs per that one duration individually. 
+     */
+    public Map<Duration, List<ResourceCost>> getMaintenanceCosts() {
+        return this.maintenanceCosts; 
+    }
+
+    /**
+     * Rarely used. But if used - use this setter to change out an entire group of maintenance costs in one instantaneous transaction.
+     */
+    public void setMaintenanceCosts(Map<Duration, List<ResourceCost>> maintenanceCosts) {
+        this.maintenanceCosts = maintenanceCosts; 
     }
 
     //Core Methods: 
@@ -307,7 +311,12 @@ public class Ability extends Entry {
      * Registers Passive Triggers when a Passive Ability is loaded
      */
     public void register(SceneContext context) {
-        triggers.forEach(t -> t.register(context)); 
+        //Hooks all triggers that could trigger. 
+        Set<Trigger> keyTriggers = triggers.keySet(); 
+
+        List<Trigger> keyTriggersList = new ArrayList<>(keyTriggers); 
+
+        keyTriggersList.forEach(t -> t.register(context));
 
         if(type.equals(AbilityType.PASSIVE)) {
             //apply "always-on" effects immediately
@@ -316,38 +325,114 @@ public class Ability extends Entry {
     }
 
     /**
+     * Check whether an active ability is valid for casting. 
+     */
+    public boolean canCast(Actor caster, List<Actor> targets, SceneContext context) {
+        //0) Note: Casting Shape / AOE Overlay is always possible, just that obstruction of Area of Effect / Line of Effect is resolved at PreCast. 
+
+        //1) Check whether the ability is On, based on eligibility condition - but this guard check is just fine 
+        if(!this.isOn) {
+            return false; 
+        }
+
+        //2) Check whether the Activation Conditions / GatingCondition are met
+        for (ActivationCondition ac : castingParameters.getCastingConditions()) {
+            if(!ac.test(caster, targets, context)) {
+                return false;
+            }
+        }
+
+        //3) Check Resource Costs: 
+        //TODO: Search Resources for ResourceCosts
+
+        //4) Check Valid Targets: 
+        for (Condition c : castingParameters.getValidTargetConditions()) {
+            if(c.test(caster, targets, context)) {
+                return false; 
+            }
+        }
+
+        //4) All checks passed? Means that this active ability is valid for casting. 
+        return true; 
+    }
+
+    /**
+     * Check whether an Active Ability that is a Reaction is valid for casting as a Reaction. 
+     */
+    public boolean canCastReaction(Actor caster, Event event, SceneContext context) {
+        //1) Check whether the ability is On, based on eligibility condition - but this guard check is just fine 
+        if(!this.isOn) {
+            return false; 
+        }
+
+        //2) Check whether the Activation Conditions / GatingCondition are met
+        for (ActivationCondition ac : castingParameters.getCastingConditions()) {
+            if(!ac.test(caster, event, context)) {
+                return false;
+            }
+        }
+
+        //3) Check Resource Costs: 
+        //TODO: Search Resources for ResourceCosts
+        
+        //4) All checks passed? Means that this active ability is valid for casting. 
+        return true; 
+    }
+
+    /**
      * This is an important Core Method.
      *
      * Activate an Active Ability.
      * 
-     * Can happen during cobat or out-of-combat. 
+     * Can happen during combat or out-of-combat. 
      * 
      * TODO: Overloaded method.
      */
     public void activate(Actor caster, List<Actor> targets, SceneContext context) {
-        //1. Check ActivationCondition / GatingCondition
-        if(isOn == false) {
-            throw new IllegalStateException("Cannot case because ability is OFF");
+        //1. Check whether this ability is allowed / valid to cast.
+        if(!canCast(caster, targets, context)) {
+            return; 
         }
 
-        for(ActivationCondition ac : castingConditions) {
-            if(!ac.test(caster, targets, context)) {
-                //TODO: only activate during combat or outside, etc.
-
-                //TODO: toString() for ActivationCondition
-                throw new IllegalStateException("Cannot cast: " + ac);
-            }
-        }
-
-        //2. Reduce / Deduce Resources
+        //2. Deduce and Reduce all Resource Costs
+        spendCastingCosts(caster); 
+            //search for resources (deduce)
+            //reduce it. 
+    
+        //3. Broadcast ResourceCost as ResourceCostEvent 
         
-        //throw a resource cost event. 
-        //search for resources. 
-        //reduce it
+        //4. Let the AbilityProcessor drive the Pipeline to apply the effects.
+    }
 
-        // this.castingCosts = null;
+    /**
+     * This is an important Core Method. 
+     * 
+     * Activate an Active Ability that is a Reaction. 
+     * 
+     * Can happen during combat or out-of-combat. 
+     * 
+     * TODO: Overloaded Method
+     */
+    public void activate(Actor caster, Event event, SceneContext context) {
+        if(!canCastReaction(caster, event, context)) { 
+            return; 
+        }
 
-        //3. Let the AbilityProcessor drive the Pipeline 
+        //2. Deduce and Reduce all Resource Costs
+        spendCastingCosts(caster); 
+            //search for resources (deduce)
+            //reduce it. 
+    
+        //3. Broadcast ResourceCost as ResourceCostEvent 
+        
+        //4. Let the AbilityProcessor drive the Pipeline to apply the effects.
+    }
+
+    //TODO: 
+    public void spendCastingCosts(Actor caster) {
+        //Deduce all resources
+
+        //Reduce all resources 
     }
 }
 
