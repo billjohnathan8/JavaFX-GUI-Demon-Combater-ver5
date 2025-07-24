@@ -9,7 +9,7 @@
     1.5.  Select Targets from Valid Targets.
     1.6.  Change Highlight Colour for Confirmed Targets.
     1.7.  Query for Confirmation on Target Selection. 
-    1.8.  FInd and Consume (Deduce and Reduce) all Relevant ResourceCosts 
+    1.8.  Find and Consume (Deduce and Reduce) all Relevant ResourceCosts 
     1.9.  (Optional: Consume ResourceCosts via Maintanenace Cost or Cancel the Casting Workflow Early)
     1.10. (Optional: Complete Casting Workflow (Ritual, Waiting on Cast Time, etc.)) 
     1.11. Tick Forward GameTime in accordance to Casting Workflow's Cast Time 
