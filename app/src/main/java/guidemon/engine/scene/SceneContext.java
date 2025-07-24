@@ -3,6 +3,7 @@ package guidemon.engine.scene;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import guidemon.engine.dice.roller_service.RollerService;
 import guidemon.engine.effect.AbilityProcessor;
 import guidemon.engine.event.EventBus;
 import guidemon.model.actor.Actor;
@@ -64,14 +65,16 @@ public class SceneContext {
     private final SpaceManager spaceManager; 
     private final TimeManager timeManager; 
     private final AbilityProcessor abilityProcessor; 
+    private final RollerService rollerService; 
 
-    public SceneContext(EventBus eventBus, List<Token> tokens, List<Actor> actors, SpaceManager spaceManager, TimeManager timeManager, AbilityProcessor abilityProcessor) {
+    public SceneContext(EventBus eventBus, List<Token> tokens, List<Actor> actors, SpaceManager spaceManager, TimeManager timeManager, AbilityProcessor abilityProcessor, RollerService rollerService) {
         this.eventBus = eventBus;
         this.tokens = tokens; 
         this.actors = actors; 
         this.spaceManager = spaceManager;
         this.timeManager = timeManager; 
         this.abilityProcessor = abilityProcessor; 
+        this.rollerService = rollerService;
     }
 
     //only getters: 
@@ -97,6 +100,10 @@ public class SceneContext {
 
     public AbilityProcessor getAbilityProcessor() {
         return this.abilityProcessor; 
+    }
+
+    public RollerService getRollerService() {
+        return this.rollerService; 
     }
 
     //Core Methods: 
