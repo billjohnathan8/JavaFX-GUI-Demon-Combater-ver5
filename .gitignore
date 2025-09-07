@@ -1,5 +1,29 @@
-# Ignore Gradle project-specific cache directory
-.gradle
+# --- Build tools / caches ---
+.gradle/
+**/.gradle/
 
-# Ignore Gradle build output directory
-build
+# --- Build outputs (all modules) ---
+build/
+**/build/
+bin/
+**/bin/
+out/
+**/out/
+target/
+**/target/
+
+# --- Compiled classes ---
+*.class
+
+# --- IDEs ---
+.vscode/
+.idea/
+*.iml
+
+# --- Logs / OS cruft ---
+*.log
+.DS_Store
+Thumbs.db
+
+# --- Local SDKs or vendor bundles (optional) ---
+javafx-sdk-*/
