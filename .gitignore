@@ -25,5 +25,9 @@ target/
 .DS_Store
 Thumbs.db
 
+# --- Code Counter ---
+.VSCodeCounter/
+
+
 # --- Local SDKs or vendor bundles (optional) ---
 javafx-sdk-*/
