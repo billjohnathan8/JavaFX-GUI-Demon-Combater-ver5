@@ -1,0 +1,18 @@
+Function: 
+
+When an Item is considered Templatable - use Emergent Systems to Procedurally and Promptly Generate new corresponding Items from the Templatable Item and valid material items. 
+
+E.g: 
+Material Items: 
+-Iron
+-Gold
+-Emerald
+
+
+During Item Creation: 
+Templatable Item: Battle Pan
+Valid Materials: Iron, Gold
+
+Corresponding Items: Iron Battle Pan, Gold Battle Pan
+
+Prompts the creation of these items as well and assignment of their default values. 
