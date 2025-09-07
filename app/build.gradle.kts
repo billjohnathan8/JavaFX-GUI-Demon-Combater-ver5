@@ -9,7 +9,7 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     application
     java 
-    id("org.openjfx.javafxplugin") version "0.0.13"
+    id("org.openjfx.javafxplugin") version "0.1.0"
 }
 
 repositories {
@@ -25,6 +25,7 @@ dependencies {
 
     //javaFX dependencies 
     implementation("org.openjfx:javafx-controls:$javafxVersion")
+        implementation("org.openjfx:javafx-graphics:$javafxVersion")
     implementation("org.openjfx:javafx-fxml:$javafxVersion")
 
     //gson dependency 
@@ -37,7 +38,12 @@ java {
 }
 
 application {
+    // Kotlin DSL: use .set(...) and double quotes
+    mainModule.set("guidemon")
     mainClass.set("guidemon.Main")
+
+    // optional: cleaner dist/script names even though the root has spaces
+    applicationName = "guidemon"
 }
 
 javafx {
