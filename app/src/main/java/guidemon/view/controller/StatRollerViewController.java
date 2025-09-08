@@ -1,6 +1,8 @@
 package guidemon.view.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 import guidemon.engine.stat_roller.IStatRollingStrategy;
@@ -115,9 +117,35 @@ public class StatRollerViewController {
         validateStats(stats);
 
         switch (mode) {
-                case FIXED -> applyStats(stats);
-                case CHOOSE -> openStatAssignment(stats);
-                case POINT_BUY -> openPointBuy(pointBuyConfig.get());
+            case FIXED -> {
+                try {
+                    goToAssignment(mode, stats);
+
+                } catch (IOException e) {
+
+                    e.printStackTrace();
+                }
+            }
+
+            case CHOOSE -> {
+                try {
+                    goToAssignment(mode, stats);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+
+                }
+            }
+
+            case POINT_BUY -> {
+                if (pointBuyConfig.isPresent()) { 
+                    openPointBuy(pointBuyConfig.get()); 
+
+                } else { 
+                    System.out.println("Point Buy assignment selected, but no config provided. Aborting.");
+
+                }
+            }
         }
     }
 
@@ -129,6 +157,7 @@ public class StatRollerViewController {
     }
 
     //* opens PointBuyConfigPrompt.fxml */
+    //* opens PointBuyView.fxml */
     private Optional<PointBuyConfig> promptPointBuyConfig(IStatRollingStrategy strategy) {
         try {
             String pointBuyConfigPromptPath = "" + RESOURCES_VIEW_PATH + "PointBuyConfigPrompt.fxml"; 
@@ -159,28 +188,6 @@ public class StatRollerViewController {
         }
     }
 
-    //* opens StatAssignmentView.fxml */ 
-    private void openStatAssignment(int[] stats) { 
-        try {
-            String StatAssignmentViewPath = "" + RESOURCES_VIEW_PATH + "StatAssignmentView.fxml"; 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(StatAssignmentViewPath));
-            Parent root = loader.load();
-
-            StatAssignmentController controller = loader.getController();
-            controller.setRolledStats(stats);
-
-            Stage stage = new Stage();
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.setTitle("Assign Stats");
-            stage.setScene(new Scene(root));
-            stage.showAndWait();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-
-        }
-    }
-
     //* opens PointBuyView.fxml */
     private void openPointBuy(PointBuyConfig config) { 
         try {
@@ -203,12 +210,22 @@ public class StatRollerViewController {
         }
     }
 
-    //TODO: 
-    /* sets stats directly to character */ 
-    private void applyStats(int[] stats) { 
-        String formattedString = String.format("Stats: [STR: %d, DEX: %d, CON: %d, INT: %d, WIS: %d, CHA: %d]", stats[0], stats[1], stats[2], stats[3], stats[4], stats[5]);
+    //* opens StatAssignmentView.fxml */ 
+    private void goToAssignment(StatAssignmentMode mode, int[] inOrder) throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/guidemon/view/StatAssignmentView.fxml"));
+        Parent root = loader.load();
+        StatAssignmentController ctrl = loader.getController();
 
-        System.out.println(formattedString);
+        // Convert to List<Integer> in order
+        List<Integer> scores = Arrays.stream(inOrder).boxed().toList();
+
+        // Tell the controller which mode & which values to show
+        ctrl.configure(mode, scores);
+
+        Stage stage = new Stage(); // or reuse your primary stage / scene swapper
+        stage.setTitle("Assign Ability Scores");
+        stage.setScene(new Scene(root));
+        stage.show();
     }
 
     //ensure that if a 0 value is detected - replace it with 1 instead, since the minimum value for any given ability score is 1. 
