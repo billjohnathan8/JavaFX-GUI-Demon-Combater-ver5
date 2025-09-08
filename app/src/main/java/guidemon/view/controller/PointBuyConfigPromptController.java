@@ -37,10 +37,9 @@ public class PointBuyConfigPromptController {
         if (strategy instanceof CustomPointBuyStrategy) {
             enableTextFields(true, true, true, true);
 
-
-        } else if (strategy instanceof DND5EStandardPointBuyStrategy) {
+        } else if (strategy instanceof DND5EStandardPointBuyStrategy dND5EStandardPointBuyStrategy) {
             // Auto-fill config — no inputs needed
-            finalConfig = ((DND5EStandardPointBuyStrategy) strategy).getPointBuyConfig();
+            finalConfig = dND5EStandardPointBuyStrategy.getPointBuyConfig();
 
             confirmed = true;
             closeWindow();

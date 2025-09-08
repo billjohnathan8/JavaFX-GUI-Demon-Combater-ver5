@@ -1,0 +1,25 @@
+//Point Buy - adds or subtracts to all(can be +ve or -ve)
+//enforce the max limits 
+
+//
+
+
+//Config
+
+//enforce max limits
+
+//Config - Overrides anything the user puts
+
+//Total Points
+//Base Value for Ability Scores (use one?)
+//For Ability Score Base Value - take from total? Or Bonus On-Top? 
+//Minimum Bound for Ability Scores
+//Minimum Bound on Which ones 
+//Maximum Bound for Ability Scores
+//Maximum Bound on Which Ones
+
+//Default: 
+- Total Points = sum(ability scores from IStatRollingStrategy)
+- Base Value for Ability Scores = 10, take from total. 
+- Minimum Bound for Ability Scores = 1 (ALWAYS TRUE - ENFORCE AS SUCH)
+- No Max Bound for all ability scores. 
