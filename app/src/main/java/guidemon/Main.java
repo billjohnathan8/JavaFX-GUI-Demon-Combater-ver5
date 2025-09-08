@@ -83,8 +83,10 @@ public class Main extends Application {
             }
             statRollerStage.toFront();
             statRollerStage.requestFocus();
+
         } catch (Exception ex) {
             ex.printStackTrace();
+            
         }
     }
 

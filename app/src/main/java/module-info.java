@@ -1,6 +1,6 @@
 module guidemon {
     requires javafx.controls;
-    requires javafx.graphics;
+    requires transitive javafx.graphics;
     requires javafx.fxml;
 
     exports guidemon; // your Main class is here
